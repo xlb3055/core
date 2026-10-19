@@ -1,5 +1,6 @@
 import {
   type Component,
+  type ComponentObjectPropsOptions,
   type ComponentOptions,
   type ComponentPublicInstance,
   type PropType,
@@ -289,6 +290,19 @@ describe('with object props', () => {
       return null
     },
   })
+
+  interface User {
+    id: number
+  }
+
+  const userProps: ComponentObjectPropsOptions<{ user: User }> = {
+    // @ts-expect-error default factories must return the declared prop type
+    user: {
+      type: Object as PropType<User>,
+      default: () => 'invalid',
+    },
+  }
+  void userProps
 
   expectType<Component>(MyComponent)
 
